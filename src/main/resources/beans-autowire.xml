@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+		<!-- 
+		
+		What is Autowiring?
+			Autowiring is when Spring scans your objects to figure out which dependencies it needs. 
+			
+		Injection vs Autowiring?
+			Injection is HOW to inject Dependencies 
+			Autowiring is WHICH dependencies do we need. 
+			
+		Autowiring modes: 
+			"No": (default) Means Spring will not make any attempts to autowire.
+			"byType": means Spring will look at the class' datatype then match those datatypes to our beans in the IoC
+						container. 
+			"byName": means Spring will look at the class' properties' name, then find a bean with a matching name! 
+			"constructor": works similar to byType, expect it injects  using the constructor with the mosty types. 
+							If the byType strategy fails, then the constructor will turn to byName
+		 -->
+		 
+		 
+		 <!--  Having multiple beans of the same type will cause an error when trying to autowire by type, because 
+		 	if Spring sees 2 beans that can satisfy dependency then it will simply break! -->
+		 
+		 <!--  This bean relies on values, not other dependencies/object/beans 
+		 <bean name="UsefuleBean" class="com.revature.beans.MessageBean">
+			<property name="message" value="This is a bean from my autowire IoC container"/>
+		</bean> 
+		-->
+		
+		<bean name="helpfulBean" class="com.revature.beans.MessageBean">
+			<property name="message" value="This bean has been autowire because the type matches!"/>
+		</bean> 
+		
+		<bean name="AdvancedBeanAutowire" class="com.revature.beans.AdvancedBean" autowire="byType"></bean>
+		<bean name="AdvancedBeanAutowireByName" class="com.revature.beans.AdvancedBean" autowire="byName"></bean>
+		<bean name="AdvancedBeanAutowireByConstructorSingleArgs" class="com.revature.beans.AdvancedBean" autowire="constructor"></bean>
+		
+		<bean name="AdvancedBeanByConstructorAllArgs" class="com.revature.beans.AdvancedBean" autowire="constructor">
+			<constructor-arg index="1" value="Example Name"></constructor-arg>
+			<constructor-arg index="2" value="100"/>
+		</bean>
+		
+		<!--  With constructor injection, if all the arguments are not accounted for then it'll just ignore the constructor. -->
+</beans>
